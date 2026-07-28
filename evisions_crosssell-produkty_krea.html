@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cross-sell produkty jako injekce pro krea · evisions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --orange:#E5712C; --orange-light:#fdf0e6; --orange-mid:#f5c49a;
+  --green:#b4d250; --green-dark:#7FB23A; --green-light:#f2f7e0;
+  --dark:#141414; --dark2:#1c1c1c; --text:#1a1a1a; --text-muted:#6b6b6b;
+  --bg:#fdf8f2; --border:rgba(0,0,0,0.08);
+  --gradient:linear-gradient(90deg,#E5712C 0%,#E5A52C 40%,#b4d250 100%);
+  --card-shadow:0 2px 12px rgba(0,0,0,0.06);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;font-size:15px}
+h1,h2,h3,.sub-title,.header-tag,.box-title,.pkg-title{font-family:'Inter Tight',sans-serif}
+.wrap{max-width:1000px;margin:0 auto;padding:0 24px}
+.dot{color:var(--orange)}
+/* HEADER */
+.header{position:relative;background:var(--dark);color:#fff;overflow:hidden;padding:56px 0 40px}
+.header::before{content:"";position:absolute;inset:0;
+  background-image:radial-gradient(circle at 1px 1px, rgba(255,255,255,.06) 1px, transparent 0);
+  background-size:22px 22px;opacity:.7}
+.header::after{content:"";position:absolute;left:0;right:0;bottom:0;height:6px;background:var(--gradient)}
+.header .wrap{position:relative;z-index:1}
+.header-tag{display:inline-block;font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;
+  color:#fff;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);
+  padding:6px 12px;border-radius:100px;margin-bottom:18px}
+.header h1{font-size:52px;font-weight:700;line-height:1.05;letter-spacing:-.02em;margin-bottom:14px}
+.header-sub{font-size:16px;color:#c9c9c9;max-width:680px}
+/* NAV */
+.nav{position:sticky;top:0;z-index:20;background:rgba(253,248,242,.92);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--border)}
+.nav .wrap{display:flex;gap:6px;flex-wrap:wrap;padding-top:12px;padding-bottom:12px}
+.nav a{font-size:13px;font-weight:600;color:var(--text-muted);text-decoration:none;
+  padding:7px 13px;border-radius:100px;transition:.15s}
+.nav a:hover{color:var(--orange);background:var(--orange-light)}
+.nav a.active{color:#fff;background:var(--orange)}
+/* SECTION */
+section{padding:44px 0 8px}
+.sec-head{display:flex;align-items:center;gap:14px;margin-bottom:6px}
+.sec-icon{width:46px;height:46px;border-radius:12px;background:var(--dark);display:flex;align-items:center;
+  justify-content:center;flex-shrink:0;position:relative}
+.sec-num{font-family:'Inter Tight';font-weight:700;color:var(--orange);font-size:22px}
+.sec-head h2{font-size:27px;font-weight:700;letter-spacing:-.01em}
+.sub-title{font-size:15px;font-weight:600;color:var(--text);border-left:3px solid var(--orange);
+  padding-left:10px;margin:14px 0 12px}
+.lead{font-size:15.5px;color:var(--text);margin:6px 0}
+.badge-row{margin:12px 0 4px}
+.pill{display:inline-block;font-size:12px;font-weight:600;padding:5px 12px;border-radius:100px;
+  background:var(--green-light);color:var(--green-dark);border:1px solid var(--green-dark);margin:2px 3px 2px 0}
+.pill.orange{background:var(--orange-light);color:var(--orange);border-color:var(--orange-mid)}
+.tip-box{background:var(--green-light);border:1px solid var(--green-dark);border-radius:12px;
+  padding:13px 16px;margin:14px 0;font-size:14px}
+.tip-box strong{color:var(--green-dark)}
+.klienti{font-size:14px;color:var(--text-muted);margin-top:10px}
+.klienti b{color:var(--text)}
+/* PACKAGE TABLE */
+.pkg-title{font-size:16px;font-weight:700;margin:22px 0 8px;color:var(--dark)}
+.pkg-wrap{overflow-x:auto;border-radius:14px;box-shadow:var(--card-shadow);border:1px solid var(--border);background:#fff}
+table.pkg{width:100%;border-collapse:collapse;font-size:14px;min-width:640px}
+table.pkg thead th{background:var(--orange);color:#fff;font-family:'Inter Tight';font-weight:700;
+  padding:13px 16px;font-size:14.5px;text-align:center}
+table.pkg thead th.l{text-align:left}
+table.pkg thead th{vertical-align:top}
+.hrs{display:inline-block;font-size:11px;font-weight:600;color:var(--orange);background:var(--orange-light);border:1px solid var(--orange-mid);border-radius:100px;padding:1px 8px;margin-left:8px;white-space:nowrap}
+.th-sub{display:block;font-family:'Manrope',sans-serif;font-weight:500;font-size:10.5px;line-height:1.25;opacity:.85;margin-top:3px;text-transform:none}
+table.pkg td{padding:11px 16px;border-top:1px solid var(--border);vertical-align:middle}
+table.pkg td.item{font-weight:500;color:var(--text)}
+table.pkg td.type{color:var(--text-muted);font-size:12.5px;white-space:nowrap}
+table.pkg td.tier{text-align:center;width:130px}
+table.pkg td.on{background:var(--orange-light)}
+table.pkg td.on::before{content:"\2713";color:var(--orange);font-weight:700;font-size:15px}
+table.pkg td.tier.num::before{content:none}
+table.pkg td.tier.num{font-weight:700;color:var(--orange);font-size:12.5px;font-family:'Inter Tight',sans-serif}
+table.pkg tbody tr:nth-child(even) td.item,table.pkg tbody tr:nth-child(even) td.type{background:#faf6f0}
+table.pkg tr.total td{border-top:2px solid var(--orange-mid);font-weight:700;font-family:'Inter Tight';
+  background:#fff;font-size:14px}
+table.pkg tr.total td.item{color:var(--dark)}
+table.pkg tr.total td.price{text-align:center;color:var(--dark)}
+table.pkg tr.total.first td{border-top:2px solid var(--orange)}
+.vat{text-align:right;font-size:12px;color:var(--text-muted);margin:8px 2px 0;font-style:italic}
+.divider{height:1px;background:var(--border);margin:30px 0}
+/* FOOTER */
+.footer{position:relative;background:var(--dark);color:#c9c9c9;margin-top:48px;padding:34px 0}
+.footer::before{content:"";position:absolute;left:0;right:0;top:0;height:5px;background:var(--gradient)}
+.footer .wrap{position:relative}
+.footer .f-title{font-family:'Inter Tight';font-weight:700;color:#fff;font-size:17px;margin-bottom:6px}
+.footer .f-meta{font-size:13px;color:#8f8f8f}
+.intro-note{background:var(--orange-light);border:1px solid var(--orange-mid);border-radius:14px;
+  padding:16px 20px;margin:16px 0 8px;font-size:14.5px}
+.intro-note strong{color:var(--orange)}
+.legend{font-size:13px;color:var(--text-muted);margin:14px 0 0}
+@media (max-width:680px){.header h1{font-size:36px}.sec-head h2{font-size:22px}}
+</style>
+</head>
+<body>
+<header class="header"><div class="wrap">
+  <span class="header-tag">Interní podklad · pro manažery</span>
+  <h1>Cross-sell produkty jako injekce pro krea 💰</h1>
+  <p class="header-sub">Pět balíčkovaných služeb s úrovněmi Good / Better / Best. Podklad pro společné rozhodnutí, které z nich by mohly fungovat na kterém klientovi.</p>
+</div></header>
+<nav class="nav"><div class="wrap">
+  <a href="#uvod" class="active">Úvod</a>
+  <a href="#sezonni">1 · Sezónní</a>
+  <a href="#video">2 · Video ads</a>
+  <a href="#ugc">3 · UGC funnel</a>
+  <a href="#influencer">4 · Influencer</a>
+  <a href="#email">5 · Emailing</a>
+</div></nav>
+<div class="wrap">
+<section id="uvod">
+  <p class="lead" style="font-size:16px">Pět služeb, které umíme nabídnout napříč klientským portfoliem. <b>Sezónní kampaně</b> jsou jednorázový projekt navázaný na konkrétní okno v roce, který se ale vrací každou sezónu. <b>Konverzní video ads sady</b> stojí na testování hooků a měsíční obměně kreativy. <b>UGC kampaně</b> plní funnel autentickým obsahem pod profilem značky — podle produktu na awareness i konverze. <b>Influencer kampaně</b> běží jako Spark Ads pod profilem tvůrce a měří se na brand lift. <b>Emailing</b> drží zákazníka přes retenční a nurture flows.</p>
+  <div class="intro-note">Každou službu jsme rozbili na <strong>samostatně účtovatelné kroky</strong> a poskládali do tří úrovní — <strong>Good</strong>, <strong>Better</strong>, <strong>Best</strong>. Logika je stejná jako u našich PPC+UX balíčků. Úrovně se liší <strong>mírou našeho zapojení</strong>: <strong>Good</strong> = dodáme nápad a zadání, klient si to zprodukuje a nasadí sám · <strong>Better</strong> = přibírá se produkce · <strong>Best</strong> = plus nasazení, správa a vyhodnocení.</div>
+</section>
+<div class="divider"></div>
+
+<section id="sezonni">
+  <div class="sec-head">
+    <div class="sec-icon"><svg viewBox="0 0 24 24" style="width:24px;height:24px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg></div>
+    <h2><span class="sec-num">1</span>&nbsp; Sezónní kampaně</h2>
+  </div>
+  <p class="sub-title">Jednorázový projekt, ale opakovatelný každou sezónu</p>
+  <p class="lead">Kampaň navázaná na konkrétní okno v roce — konec prázdnin, podzim, Vánoce, Silvestr, léto, Black Friday. Balík strategie + kreativa + nasazení pro dané období. Jednorázová fakturace, ale <b>vrací se každou sezónu</b> — ideální opakovaná zakázka bez nutnosti stálého retaineru.</p>
+  
+  <div class="klienti"><b>Typičtí klienti:</b> Medovník (podzim), Extrapyro (Silvestr), Kalkulátor.cz (konec prázdnin / energie), gastro v létě, e-commerce na Black Friday.</div>
+  <div class="pkg-title">Nabídkové úrovně</div>
+  <div class="pkg-wrap"><table class="pkg"><thead><tr><th class="l">Item</th><th>Best<span class="th-sub">idea + produkce<br>+ nastavení</span></th><th>Better<span class="th-sub">idea + produkce</span></th><th>Good<span class="th-sub">jen idea<br>+ zadání</span></th></tr></thead><tbody><tr><td class="item">Ideamaking — koncept kampaně + zadání pro produkci <span class="hrs">8 h</span></td><td class="tier on"></td><td class="tier on"></td><td class="tier on"></td></tr><tr><td class="item">Produkce — videa / vizuály dle konceptu <span class="hrs">20 h</span></td><td class="tier on"></td><td class="tier on"></td><td class="tier"></td></tr><tr><td class="item">Nastavení kampaně a vyhodnocení <span class="hrs">15 h</span></td><td class="tier on"></td><td class="tier"></td><td class="tier"></td></tr><tr class="total first"><td class="item">Celková cena</td><td class="price">64 500 Kč</td><td class="price">42 000 Kč</td><td class="price">12 000 Kč</td></tr></tbody></table></div><div class="vat">Ceny jsou bez DPH · hodinová sazba 1 500 Kč</div>
+</section><div class="divider"></div>
+
+<section id="video">
+  <div class="sec-head">
+    <div class="sec-icon"><svg viewBox="0 0 24 24" style="width:24px;height:24px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M4 6h11a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/><path d="M17 10l5-3v10l-5-3"/></svg></div>
+    <h2><span class="sec-num">2</span>&nbsp; Konverzní video ads sady</h2>
+  </div>
+  <p class="sub-title">Vlna videí, kterou lze dotočením prodloužit</p>
+  <p class="lead">Sady videí do výkonu postavené na testování kombinací (5 těl videa × 3 hooky × 3 CTA) a průběžném nasazování, vypínání a určování vítězů. Nejvyšší úroveň umožňuje kreativu ještě prodloužit <b>dotočením chybějících záběrů a vítězných úhlů s jiným tvůrcem</b> — tím se z jedné vlny vytěží maximum a oddálí se „creative fatigue“. Donekonečna to ale opakovat nejde: až se varianty vyčerpají, přichází nová vlna s novým konceptem.</p>
+  
+  <div class="klienti"><b>Typičtí klienti:</b> Teta, Masoprofit, Fever-Tree, Bellinda, D.A.S., Planteray + e-commerce (Kamody, T.S.Bohemia, Planeo, De'Longhi, LED Solution, ASTRATEX), FTMO.</div>
+  <div class="pkg-title">Nabídkové úrovně</div>
+  <div class="pkg-wrap"><table class="pkg"><thead><tr><th class="l">Item</th><th>Best<span class="th-sub">varianty<br>+ dotáčecí fáze</span></th><th>Better<span class="th-sub">5 těl<br>+ hooky a CTA</span></th><th>Good<span class="th-sub">základní sada<br>5 videí</span></th></tr></thead><tbody><tr><td class="item">Ideamaking — strategie, plán hooků a CTA, scénáře <span class="hrs">3 h</span></td><td class="tier on"></td><td class="tier on"></td><td class="tier on"></td></tr><tr><td class="item">Výroba a postprodukce videí</td><td class="tier on num">30 h</td><td class="tier on num">17 h</td><td class="tier on num">10 h</td></tr><tr><td class="item">Nastavení kampaně a vyhodnocení</td><td class="tier on num">15 h</td><td class="tier on num">10 h</td><td class="tier on num">5 h</td></tr><tr class="total first"><td class="item">Celková cena</td><td class="price">72 000 Kč</td><td class="price">45 000 Kč</td><td class="price">27 000 Kč</td></tr></tbody></table></div><div class="vat">Ceny jsou bez DPH · hodinová sazba 1 500 Kč</div>
+</section><div class="divider"></div>
+
+<section id="ugc">
+  <div class="sec-head">
+    <div class="sec-icon"><svg viewBox="0 0 24 24" style="width:24px;height:24px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><rect x="3" y="5" width="14" height="14" rx="2"/><path d="M17 9l4-2v10l-4-2"/></svg></div>
+    <h2><span class="sec-num">3</span>&nbsp; UGC kampaně jako součást funnelu</h2>
+  </div>
+  <p class="sub-title">Brand awareness i konverze — podle typu produktu</p>
+  <p class="lead">Autenticky vypadající obsah od UGC tvůrců nasazený <b>pod profilem značky</b>. Podle produktu se váha přesouvá: u zavedených produktů spíš konverze a demo, u méně známých i horní funnel a budování povědomí. Rozsah kampaně se odvíjí od <b>počtu tvůrců a úhlů pohledu</b> — čím víc tvůrců, tím víc autentických perspektiv na produkt a tím víc materiálu do testování.</p>
+  
+  <div class="klienti"><b>Typičtí klienti:</b> Kalkulátor.cz, Teta, e-commerce (Kamody, T.S.Bohemia, Planeo, De'Longhi), EUC lékárna, Slevomat.</div>
+  <div class="pkg-title">Nabídkové úrovně</div>
+  <div class="pkg-wrap"><table class="pkg"><thead><tr><th class="l">Item</th><th>Best<span class="th-sub">10–15 tvůrců</span></th><th>Better<span class="th-sub">5–10 tvůrců</span></th><th>Good<span class="th-sub">3 tvůrci</span></th></tr></thead><tbody><tr><td class="item">Strategie a vymyšlení konceptu</td><td class="tier on num">5 h</td><td class="tier on num">5 h</td><td class="tier on num">3 h</td></tr><tr><td class="item">Briefing tvůrců, komunikace, schvalování scénářů a koordinace výstupů</td><td class="tier on num">15 h</td><td class="tier on num">10 h</td><td class="tier on num">5 h</td></tr><tr><td class="item">Nasazení kampaně a vyhodnocení</td><td class="tier on num">15 h</td><td class="tier on num">10 h</td><td class="tier on num">5 h</td></tr><tr class="total first"><td class="item">Naše práce celkem</td><td class="price">52 500 Kč</td><td class="price">37 500 Kč</td><td class="price">19 500 Kč</td></tr><tr class="total"><td class="item">Odměny tvůrcům (cca 7 000 Kč / video)</td><td class="price">70 000–105 000 Kč</td><td class="price">35 000–70 000 Kč</td><td class="price">21 000 Kč</td></tr></tbody></table></div><div class="vat">Ceny jsou bez DPH · hodinová sazba 1 500 Kč · odměny tvůrcům se fakturují navíc</div>
+</section><div class="divider"></div>
+
+<section id="influencer">
+  <div class="sec-head">
+    <div class="sec-icon"><svg viewBox="0 0 24 24" style="width:24px;height:24px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M3 11l14-6v14L3 13z"/><path d="M17 8a3 3 0 0 1 0 8"/><path d="M6 13v4a2 2 0 0 0 4 0"/></svg></div>
+    <h2><span class="sec-num">4</span>&nbsp; Influencer kampaně s měřením brand liftu</h2>
+  </div>
+  <p class="sub-title">Spark Ads pod profilem tvůrce</p>
+  <p class="lead">Post tvůrce boostnutý z brandové karty (Spark Ads), postavený na 3 pákách (Creative Quality, Creator Fame, Brand Fit). Jedna spolupráce s influencerem a pak se měří <b>brand lift</b> (control vs. exposed + anketa), ne engagement. Úrovně se liší typem spolupráce: <b>barterová</b> (produkt za obsah) → <b>placená</b> → <b>placená s měřením brand liftu</b>.</p>
+  
+  <div class="klienti"><b>Typičtí klienti:</b> MONETA, ČSOB, mBank, Generali, EUC, Fever-Tree, Budvar, Carvago.</div>
+  <div class="pkg-title">Nabídkové úrovně</div>
+  <div class="pkg-wrap"><table class="pkg"><thead><tr><th class="l">Item</th><th>Best<span class="th-sub">placená spolupráce<br>+ brand lift</span></th><th>Better<span class="th-sub">placená<br>spolupráce</span></th><th>Good<span class="th-sub">barterová<br>spolupráce</span></th></tr></thead><tbody><tr><td class="item">Strategie, vytipování tvůrců a briefing</td><td class="tier on num">5 h</td><td class="tier on num">5 h</td><td class="tier on num">3 h</td></tr><tr><td class="item">Komunikace a koordinace spolupráce</td><td class="tier on num">10 h</td><td class="tier on num">8 h</td><td class="tier on num">5 h</td></tr><tr><td class="item">Nastavení kampaně a vyhodnocení</td><td class="tier on num">15 h</td><td class="tier on num">10 h</td><td class="tier on num">5 h</td></tr><tr><td class="item">Brand Lift Study — nastavení a vyhodnocení</td><td class="tier on num">10 h</td><td class="tier"></td><td class="tier"></td></tr><tr class="total first"><td class="item">Naše práce celkem</td><td class="price">60 000 Kč</td><td class="price">34 500 Kč</td><td class="price">19 500 Kč</td></tr><tr class="total"><td class="item">Proteklé náklady (odměna tvůrce + spend kampaně)</td><td class="price">odměna dle dosahu<br>+ spend min. ~120 000 Kč</td><td class="price">odměna dle dosahu<br>+ spend dle rozpočtu</td><td class="price">barter<br>(produkt / služba)</td></tr></tbody></table></div><div class="vat">Ceny jsou bez DPH · hodinová sazba 1 500 Kč · minimální spend pro Meta Brand Lift se stanovuje per země — ověřit v Ads Manageru (TikTok BLS vyžaduje od ~100 000 USD)</div>
+</section><div class="divider"></div>
+
+<section id="email">
+  <div class="sec-head">
+    <div class="sec-icon"><svg viewBox="0 0 24 24" style="width:24px;height:24px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></div>
+    <h2><span class="sec-num">5</span>&nbsp; Emailing</h2>
+  </div>
+  <p class="sub-title">Zaměření na retenci a nurture</p>
+  <p class="lead">Automatizované flows i kampaňové rozesílky. Setup jednorázově, pak měsíční správa: retence a opakovaný nákup, nurture pro dlouhé zvažování, B2B lead nurturing a aktivační/lifecycle flows.</p>
+  
+  <div class="klienti"><b>Typičtí klienti:</b> E-commerce (Kamody, ASTRATEX, De'Longhi, EUC lékárna), finance/energie (Kalkulátor, ČEZ, MONETA, Generali), B2B nurturing (Účtio, SOFTLI).</div>
+  <div class="pkg-title">Nabídkové úrovně</div>
+  <div class="pkg-wrap"><table class="pkg"><thead><tr><th class="l">Item</th><th>Best<span class="th-sub">rozšířené flow<br>+ rozesílky</span></th><th>Better<span class="th-sub">rozšířené<br>flow</span></th><th>Good<span class="th-sub">základní<br>flow</span></th></tr></thead><tbody><tr><td class="item">Strategie</td><td class="tier on"></td><td class="tier on"></td><td class="tier on"></td></tr><tr><td class="item">Šablona a design</td><td class="tier on"></td><td class="tier on"></td><td class="tier on"></td></tr><tr><td class="item">Základní flow — uvítací série a opuštěný košík</td><td class="tier on"></td><td class="tier on"></td><td class="tier on"></td></tr><tr><td class="item">Rozšířené flow — post-purchase, reaktivace neaktivních, prohlížené produkty</td><td class="tier on"></td><td class="tier on"></td><td class="tier"></td></tr><tr><td class="item">Sezónní a kampaňové rozesílky</td><td class="tier on"></td><td class="tier"></td><td class="tier"></td></tr><tr><td class="item">Nastavení, vyhodnocení a reporting</td><td class="tier on"></td><td class="tier on"></td><td class="tier on"></td></tr><tr class="total first"><td class="item">Naše práce celkem</td><td class="price">TBD</td><td class="price">TBD</td><td class="price">TBD</td></tr></tbody></table></div><div class="vat">Hodiny a ceny doplníme později · sazba 1 500 Kč / hod · ceny bez DPH</div>
+</section>
+</div>
+<footer class="footer"><div class="wrap">
+  <div class="f-title">evisions · Cross-sell produkty jako injekce pro krea</div>
+  <div class="f-meta">Interní podklad pro management · v1.0 · červenec 2026 · ceny bez DPH</div>
+</div></footer>
+<script>
+const links=[...document.querySelectorAll('.nav a')];
+const secs=links.map(a=>document.querySelector(a.getAttribute('href')));
+function spy(){let i=0;const y=scrollY+120;for(let k=0;k<secs.length;k++){if(secs[k]&&secs[k].offsetTop<=y)i=k;}
+  links.forEach(l=>l.classList.remove('active'));if(links[i])links[i].classList.add('active');}
+addEventListener('scroll',spy);spy();
+links.forEach(l=>l.addEventListener('click',e=>{e.preventDefault();
+  const t=document.querySelector(l.getAttribute('href'));scrollTo({top:t.offsetTop-70,behavior:'smooth'});}));
+</script>
+</body></html>
